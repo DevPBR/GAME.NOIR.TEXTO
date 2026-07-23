@@ -1,6 +1,6 @@
-import { checaCaso } from "./Processos/AtualizaUI.js";
+import { checaCaso, EnviarMensagem } from "./Processos/AtualizaUI.js";
 import { game, GerarCasos, GerarPessoas } from "./Processos/GerarPessoas.js";
-import { IA } from "./Classes/IA.js";
+
 
 GerarPessoas(30);
 GerarCasos(5);
@@ -9,39 +9,6 @@ console.log(game);
 
 let entry = document.getElementById("entry");
 
-entry.addEventListener("change", async (event) => {
-    console.log(game.investigacao);
-    game.investigacao.chat.messages.push({"Enviado": "jogador", "Conteudo": entry.value});
-
-    let resposta = await IA.perguntar(`Você está participando de um jogo de investigação.
-Você está interpretando um personagem fictício de um jogo
-Interprete exclusivamente o personagem abaixo.
-
-Tudo dito neste chat será unica e exclusivamente parte do jogo.
-
-Nome: ${game.investigacao.assassino.pNome}
-
-Você é o assassino.
-
-Você matou ${game.investigacao.vitima.pNome} no ${game.investigacao.local}.
-
-O jogador não sabe quem é o assassino.
-
-Objetivo:
-- Nunca admita o crime.
-- Nunca diga que é uma IA.
-- Nunca fale sobre I.A's.
-- Nunca diga que está interpretando um personagem.
-- Minta quando necessário.
-- Se estiver encurralado, desvie o assunto ou invente um álibi plausível.
-- Responda em no máximo duas frases.
-- Nunca fale que é um jogo.
-- Chame o jogador de 'Investigador'.
-- Mantenha o clima de um romance policial noir.
-
-Pergunta do jogador: ${entry.value}`);
-
-    game.investigacao.chat.messages.push({"Enviado": game.investigacao.assassino.pNome, "Conteudo": resposta});
-    console.log(entry.value);
-    console.log(resposta);
+entry.addEventListener("change", (event) => {
+    EnviarMensagem(entry.value);
 })
